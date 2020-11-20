@@ -1,7 +1,7 @@
 // App.js
 
 import React, { useState, useEffect } from 'react'
-import { Alert, StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+import { Alert, StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native'
 import {REACT_APP_IPSTACK_ACCESS_KEY, REACT_APP_POSSTACK_ACCESS_KEY} from '@env'
 //import Geolocation from '@react-native-community/geolocation'
 import GetLocation from 'react-native-get-location'
@@ -69,18 +69,15 @@ export default function App() {
         })
   }, []);
 
-  /*const IP_KEY = REACT_APP_IPSTACK_ACCESS_KEY
+  const IP_KEY = REACT_APP_IPSTACK_ACCESS_KEY
 
   const ipResponse = 'http://api.ipstack.com/'+ipAddress+'?access_key='+IP_KEY
 
   fetch(ipResponse)
       .then(response => response.json())
-      .then(data => console.log(data));*/
+      .then(data => console.log(data));
 
   DeviceInfo.getDeviceName().then(name => {
-    // iOS: "Becca's iPhone 6"
-    // Android: ?
-    // Windows: ?
     setDeviceName(name)
   });
 
@@ -124,7 +121,9 @@ export default function App() {
   }
 
   function displayAlert(title, callback) {
-    Alert.alert(title, `${city}, ${region}`, [
+    Alert.alert(title,
+        `Device Name: ${deviceName} \nDevice Type: ${deviceType} \nLocation: ${city}, ${region} \nIP Address: ${ipAddress}`,
+        [
       {
         text: "Approve",
         onPress: callback,
@@ -152,39 +151,48 @@ export default function App() {
     })
   }
 
+  const DisplayLogo = () => (
+      <Image source = {require('C:/Users/Sean/Documents/OSU/AU20/CSE 4471/Project/TeslaPlan/img/logo.png')}
+             style = {{ width: 200, height: 200 }}
+      />
+  )
+
+  const DisplayImage = () => (
+      <Image source = {require('C:/Users/Sean/Documents/OSU/AU20/CSE 4471/Project/TeslaPlan/img/car.png')}
+             style = {{ resizeMode:'contain', width: 300, height: 300 }}
+      />
+  )
+
   if (loading) {
     return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Hello</Text>
+        <View style={styles.splash}>
+          <DisplayLogo />
+          <Text style={styles.text}>*DISCLAIMER: This Demo is not affiliated with Tesla, Inc.</Text>
         </View>
     )
   }
 
   return (
       <View style={styles.container}>
-{/*      <TouchableOpacity>
-          <Text style={styles.welcome}>Device Info</Text>
-          <Text style={styles.info}>Location: {loading ? "Press Me" : `${city}, ${region_code}`}</Text>
-          <Text style={styles.info}>IP Address: {ipAddress}</Text>
-          <Text style={styles.info}>Device Name: {deviceName}</Text>
-          <Text style={styles.info}>Device Type: {deviceType}</Text>
-          <Text style={styles.info}>isEmulator? {isEmulator ? "True" : "False"}</Text>
-        </TouchableOpacity>*/}
+        <DisplayImage />
         <View style={styles.buttons}>
+
           <View style={styles.button}>
           <Button
-              onPress={() => displayAlert("Unlock Car", () => genericAlert('Car unlocked'))}
+              onPress={() => displayAlert("Incoming Request to Unlock Car", () => genericAlert('Car unlocked'))}
               title={"Unlock Car"}
-              color={"#841584"}
+              color={"#212121"}
               accessibilityLabel="Press to send request to unlock car"
+              theme="dark"
           />
         </View>
         <View style={styles.button}>
           <Button
-              onPress={() => displayAlert("Start Car", () => genericAlert('Car started'))}
+              onPress={() => displayAlert("Incoming Request to Start Car", () => genericAlert('Car started'))}
               title={"Start Car"}
-              color={"#142253"}
+              color={"#212121"}
               accessibilityLabel="Press to send request to start car"
+              theme="dark"
           />
         </View>
         </View>
@@ -193,22 +201,30 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  splash: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#212121'
+  },
   container: {
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#212121'
   },
   welcome: {
     fontSize: 50,
     textAlign: 'center',
     margin: 10
   },
-  info: {
-    fontSize: 25,
+  text: {
+    fontSize: 14,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
+    color: '#f2f2f2',
   },
   buttons: {
     height: 75,
