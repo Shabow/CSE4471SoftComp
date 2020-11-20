@@ -11,7 +11,7 @@ const MY_IP = '65.24.247.147'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
-  const [locked, setLocked] = useState(false)
+  const [locked, setLocked] = useState(true)
   const [poweredOn, setPoweredOn] = useState(false)
   const [city, setCity] = useState('UNKNOWN');
   const [region, setRegion] = useState('UNKNOWN');
